@@ -1,4 +1,4 @@
-import { AlertController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
@@ -16,7 +16,7 @@ export class SettingsPage {
 
   constructor(
     public navCtrl: NavController,
-    public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public storage: Storage,
     public settingsService: SettingsService
   ) {
@@ -25,12 +25,12 @@ export class SettingsPage {
   }
 
   private alert() {
-    let alert = this.alertCtrl.create({
-      title: 'Hooray!',
-      subTitle: 'Settings successfully saved!',
-      buttons: ['OK']
+    let toast = this.toastCtrl.create({
+      message: 'Settings successfully saved!',
+      position: 'top',
+      duration: 3000
     });
-    alert.present();
+    toast.present();
   }
 
   saveSettings() {

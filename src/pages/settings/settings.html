@@ -20,7 +20,10 @@
                 <ion-label stacked>API key</ion-label>
                 <ion-input [(ngModel)]="settings.key" name="key" type="password" required></ion-input>
             </ion-item>
-
+            <ion-item>
+                <ion-label>Enabled</ion-label>
+                <ion-checkbox [(ngModel)]="settings.enabled" name="enabled"></ion-checkbox>
+            </ion-item>
         </ion-list>
         <div padding>
             <button type='submit' [disabled]="!settingsForm.form.valid" ion-button color="primary" block>Save</button>
