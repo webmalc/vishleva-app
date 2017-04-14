@@ -37,6 +37,5 @@ export class SettingsPage {
     this.storage.ready().then(() => {
       this.storage.set('settings', this.settings).then(() => { this.alert() })
     })
-    console.log(this.settings)
   }
 }

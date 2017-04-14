@@ -16,8 +16,12 @@ export class HomePage {
     public navCtrl: NavController,
     public settingsService: SettingsService
   ) {
-
     this.settings = new Settings()
-    settingsService.get().then(val => this.settings = val)
+  }
+  ionViewWillEnter() {
+    this.settings = this.getSettings()
+  }
+  getSettings(): Settings {
+    return this.settingsService.get().then(val => this.settings = val)
   }
 }
