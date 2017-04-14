@@ -8,7 +8,7 @@
 
 <ion-content padding>
 
-    <form>
+    <form (ngSubmit)="saveSettings()" #settingsForm='ngForm'>
         <ion-list>
 
             <ion-item>
@@ -23,7 +23,7 @@
 
         </ion-list>
         <div padding>
-            <button ion-button color="primary" block (click)="saveSettings()">Save</button>
+            <button type='submit' [disabled]="!settingsForm.form.valid" ion-button color="primary" block>Save</button>
         </div>
     </form>
 </ion-content>
