@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { Settings } from '../../app/settings'
 
 @Component({
   selector: 'page-settings',
@@ -7,8 +8,13 @@ import { NavController } from 'ionic-angular';
 })
 export class SettingsPage {
 
-  constructor(public navCtrl: NavController) {
+  public settings: Settings
 
+  constructor(public navCtrl: NavController) {
+    this.settings = new Settings('werr', 'rere')
   }
 
+  saveSettings() {
+    console.log(this.settings)
+  }
 }

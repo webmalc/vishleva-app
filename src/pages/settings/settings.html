@@ -7,20 +7,23 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-list>
 
-        <ion-item>
-            <ion-label stacked>SMS json url</ion-label>
-            <ion-input type="url"></ion-input>
-        </ion-item>
+    <form>
+        <ion-list>
 
-        <ion-item>
-            <ion-label stacked>API key</ion-label>
-            <ion-input type="password"></ion-input>
-        </ion-item>
+            <ion-item>
+                <ion-label stacked>SMS json url</ion-label>
+                <ion-input [(ngModel)]="settings.url" name="url" type="url" required></ion-input>
+            </ion-item>
 
-    </ion-list>
-    <div padding>
-      <button ion-button color="primary" block>Save</button>
-    </div>
+            <ion-item>
+                <ion-label stacked>API key</ion-label>
+                <ion-input [(ngModel)]="settings.key" name="key" type="password" required></ion-input>
+            </ion-item>
+
+        </ion-list>
+        <div padding>
+            <button ion-button color="primary" block (click)="saveSettings()">Save</button>
+        </div>
+    </form>
 </ion-content>
