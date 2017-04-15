@@ -9,11 +9,13 @@ export class SettingsService {
 
   public get(): Promise<Settings> {
     return new Promise(resolve => {
-      this.storage.get('settings').then((val) => {
-        if (!val) {
-          val = new Settings()
-        }
-        resolve(val)
+      this.storage.ready().then(() => {
+        this.storage.get('settings').then((val) => {
+          if (!val) {
+            val = new Settings()
+          }
+          resolve(val)
+        })
       })
     })
   }
