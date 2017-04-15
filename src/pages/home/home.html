@@ -6,4 +6,8 @@
 
 <ion-content padding>
   <h1 class="danger" padding text-center *ngIf="settings.enabled == false || settings.key == null">App is disabled</h1>
+
+  <ul id="logs-list">
+    <li *ngFor="let entry of logs">{{entry}}</li>
+  </ul>
 </ion-content>
