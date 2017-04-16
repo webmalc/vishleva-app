@@ -3,5 +3,6 @@ export class Settings {
     public url?: string,
     public key?: string,
     public enabled?: boolean,
+    public interval?: number,
   ) { }
 }
