@@ -1,6 +1,9 @@
 * Issues
-** TODO refactor interval (don`t forget const)
-** TODO add interval from settings to home.ts
-** TODO get sms for vishleva.com
+** DONE refactor interval (don`t forget const)
+   CLOSED: [2017-04-17 Mon 16:22]
+** DONE add interval from settings to home.ts
+   CLOSED: [2017-04-17 Mon 19:17]
+** DONE get sms for vishleva.com
+   CLOSED: [2017-04-17 Mon 19:17]
 ** TODO send sms
 ** TODO add background mode

@@ -3,33 +3,27 @@ import { NavController } from 'ionic-angular';
 import { SettingsService } from '../../app/settings.service'
 import { Settings } from '../../app/settings'
 import { Storage } from '@ionic/storage';
+import { SmsService } from '../../app/sms.service'
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [SettingsService]
+  providers: [SettingsService, SmsService]
 })
 export class HomePage {
 
   public settings: Settings
   public logs: string[]
-  public logMax = 20
   public timer: any
 
   constructor(
     public navCtrl: NavController,
     public settingsService: SettingsService,
+    public smsService: SmsService,
     public storage: Storage,
   ) {
     this.settings = new Settings()
     this.logs = []
-    this.storage.ready().then(() => {
-      this.storage.get('logs').then((val) => {
-        if (val) {
-          this.logs = val
-        }
-      })
-    })
     this.timer = null
   }
 
@@ -37,30 +31,33 @@ export class HomePage {
     this.settingsService.get().then(settings => {
       this.settings = settings
       this.checkStart()
-      this.checkStop()
+      this.getLogs()
     })
   }
+
   // start SMS interval
   private checkStart(): void {
-    if (!this.timer && this.settings && this.settings.enabled) {
-      this.timer = setInterval(() => this.getSMS(), 3000)
-    }
-  }
-
-  // stop SMS interval
-  private checkStop(): void {
-    if (this.timer && (!this.settings || !this.settings.enabled)) {
+    if (this.timer) {
       clearInterval(this.timer)
       this.timer = null
     }
+    if (this.settings && this.settings.enabled) {
+      this.timer = setInterval(() => this.getSMS(), this.settings.interval)
+    }
   }
 
-  private getSMS(): string[] {
-    this.logs.push('item ' + new Date().toLocaleString())
-    this.logs = this.logs.slice(-this.logMax)
+  private getLogs(): void {
     this.storage.ready().then(() => {
-      this.storage.set('logs', this.logs)
+      this.storage.get('logs').then((val) => {
+        if (val) {
+          this.logs = val
+        }
+      })
     })
-    return this.logs
+  }
+
+  private getSMS(): void {
+    this.smsService.sendSms(this.settings)
+    this.getLogs()
   }
 }

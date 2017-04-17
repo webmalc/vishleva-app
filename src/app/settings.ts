@@ -5,4 +5,8 @@ export class Settings {
     public enabled?: boolean,
     public interval?: number,
   ) { }
+
+  getSmsUrl() {
+    return this.url + '?key=' + this.key
+  }
 }
