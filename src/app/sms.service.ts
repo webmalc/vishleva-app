@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/map'
 import { Settings } from './settings'
 import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SmsService {
 
-  readonly logMax = 20
+  readonly logMax = 50
 
   constructor(
     private http: Http,
@@ -16,16 +17,19 @@ export class SmsService {
 
   private sms: object[] = []
 
-  getSms(settings: Settings) {
+  getSms(settings: Settings): Observable<string[]> {
     return this.http.get(settings.url + '?key=' + settings.key)
-      .map((res: Response) => res.json());
+      .map((res: Response) => res.json())
   }
 
   sendSms(settings: Settings) {
-    return this.getSms(settings).subscribe(data => {
-      this.parseResponse(data)
-      this.writeLog()
-    })
+    return this.getSms(settings).subscribe(
+      data => {
+        this.parseResponse(data)
+        this.writeLog()
+      },
+      error => { this.writeLog('error occurred while retrieving sms') }
+    )
   }
 
   private parseResponse(data): void {
@@ -37,15 +41,12 @@ export class SmsService {
     }
   }
 
-  private writeLog(): void {
-    if (!this.sms.length) {
-      return
-    }
-
+  private writeLog(message?: string): void {
     this.storage.ready().then(() => {
       this.storage.get('logs').then((val) => {
         let logs = []
-        let text = new Date().toLocaleString() + ' sms send: ' + this.sms.length
+        let logText = message ? message : this.sms.length ? 'sms send: ' + this.sms.length : 'idle...'
+        let text = new Date().toLocaleString() + ' - ' + logText
         if (val) {
           logs = val
         }
