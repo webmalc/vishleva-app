@@ -42,7 +42,7 @@ export class HomePage {
       this.timer = null
     }
     if (this.settings && this.settings.enabled) {
-      this.timer = setInterval(() => this.getSMS(), this.settings.interval)
+      this.timer = setInterval(() => this.getSMS(), this.settings.interval * 1000)
     }
   }
 
