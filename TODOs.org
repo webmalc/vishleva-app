@@ -5,5 +5,6 @@
    CLOSED: [2017-04-17 Mon 19:17]
 ** DONE get sms for vishleva.com
    CLOSED: [2017-04-17 Mon 19:17]
-** TODO send sms
+** DONE send sms
+   CLOSED: [2017-04-21 Fri 17:36]
 ** TODO add background mode

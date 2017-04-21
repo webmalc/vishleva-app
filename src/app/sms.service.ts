@@ -4,6 +4,12 @@ import 'rxjs/add/operator/map'
 import { Settings } from './settings'
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
+import { SMS } from '@ionic-native/sms';
+
+class SmsEntry {
+  phone: string
+  text: string
+}
 
 @Injectable()
 export class SmsService {
@@ -13,9 +19,10 @@ export class SmsService {
   constructor(
     private http: Http,
     public storage: Storage,
+    public smsSender: SMS,
   ) { }
 
-  private sms: object[] = []
+  private sms: SmsEntry[] = []
 
   getSms(settings: Settings): Observable<string[]> {
     return this.http.get(settings.url + '?key=' + settings.key)
@@ -26,6 +33,9 @@ export class SmsService {
     return this.getSms(settings).subscribe(
       data => {
         this.parseResponse(data)
+        for (let entry of this.sms) {
+          this.smsSender.send(entry.phone, entry.text)
+        }
         this.writeLog()
       },
       error => { this.writeLog('error occurred while retrieving sms') }
