@@ -8,4 +8,5 @@
 ** DONE send sms
    CLOSED: [2017-04-21 Fri 17:36]
 ** DONE add background mode
-** TODO add push
+** DONE add push
+   CLOSED: [2017-05-16 Tue 14:34]
