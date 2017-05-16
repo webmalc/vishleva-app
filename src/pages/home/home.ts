@@ -4,11 +4,14 @@ import { SettingsService } from '../../app/settings.service'
 import { Settings } from '../../app/settings'
 import { Storage } from '@ionic/storage';
 import { SmsService } from '../../app/sms.service'
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { Badge } from '@ionic-native/badge';
+import { Push, PushToken } from '@ionic/cloud-angular';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [SettingsService, SmsService]
+  providers: [SettingsService, SmsService, BackgroundMode, Badge]
 })
 export class HomePage {
 
@@ -21,18 +24,34 @@ export class HomePage {
     public settingsService: SettingsService,
     public smsService: SmsService,
     public storage: Storage,
+    public backgroundMode: BackgroundMode,
+    public push: Push,
+    public badge: Badge
   ) {
     this.settings = new Settings()
     this.logs = []
     this.timer = null
+    this.push.register().then((t: PushToken) => {
+      return this.push.saveToken(t);
+    }).then((t: PushToken) => {
+      // console.log('Token saved:', t.token);
+    });
   }
 
   ionViewDidEnter(): void {
+    this.backgroundMode.enable()
     this.settingsService.get().then(settings => {
       this.settings = settings
-      this.checkStart()
-      this.getLogs()
+      this.run()
+      this.backgroundMode.on('activate').subscribe(() => {
+        this.run()
+      })
     })
+  }
+
+  private run(): void {
+    this.checkStart()
+    this.getLogs()
   }
 
   // start SMS interval
