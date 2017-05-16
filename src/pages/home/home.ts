@@ -31,14 +31,11 @@ export class HomePage {
     this.settings = new Settings()
     this.logs = []
     this.timer = null
-    this.push.register().then((t: PushToken) => {
-      return this.push.saveToken(t);
-    }).then((t: PushToken) => {
-      // console.log('Token saved:', t.token);
-    });
+    this.registerPush()
   }
 
   ionViewDidEnter(): void {
+    this.registerPush()
     this.backgroundMode.enable()
     this.settingsService.get().then(settings => {
       this.settings = settings
@@ -47,6 +44,14 @@ export class HomePage {
         this.run()
       })
     })
+  }
+
+  private registerPush(): void {
+    this.push.register().then((t: PushToken) => {
+      return this.push.saveToken(t);
+    }).then((t: PushToken) => {
+      // console.log('Token saved:', t.token);
+    });
   }
 
   private run(): void {
